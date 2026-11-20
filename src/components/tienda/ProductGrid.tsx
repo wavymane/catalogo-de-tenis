@@ -6,6 +6,7 @@ import { matchesSizes, useCategory } from "./CategoryFilter";
 import SizeFilterControls, { selectStyle } from "./SizeFilterControls";
 import ProductPhoto from "./ProductPhoto";
 import SizeSelector from "./SizeSelector";
+import ColorSwatch from "./ColorSwatch";
 
 const pesos = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
@@ -17,13 +18,12 @@ function ProductCard({ product }: { product: Product }) {
     <div className="p-5">
       <div className="flex items-baseline justify-between gap-3">
         <h3 className="text-xl font-semibold">{product.name}</h3>
-        <span className="text-right text-sm font-medium">{product.price === null ? "Precio por confirmar" : pesos.format(product.price)}</span>
+        <span className="text-right text-sm font-medium">{product.price === null ? "Precio por confirmar" : pesos.format(product.price * 1.8)}</span>
       </div>
       {product.colors.length > 0 && <fieldset className="mt-3">
         <legend className="text-sm">Color</legend>
-        <div className="mt-1 flex flex-wrap gap-1">{product.colors.map(option =>
-          <button type="button" key={option.name} aria-pressed={option.name === color} onClick={() => setColor(option.name)}
-            className="rounded-full border border-neutral-400 px-3 py-1 text-sm aria-pressed:bg-neutral-900 aria-pressed:text-white">{option.name}</button>
+        <div className="mt-2 flex flex-wrap gap-3">{product.colors.map(option =>
+          <ColorSwatch key={option.name} name={option.name} selected={option.name === color} onSelect={() => setColor(option.name)} />
         )}</div>
       </fieldset>}
       <SizeSelector key={color} variants={product.variants.filter(variant => variant.color === color)} model={product.name} />

@@ -33,7 +33,7 @@ export default function SizeGuide({ sizes }: { sizes: number[] }) {
           </div>
         </div>
       ) : <p className="my-3">Aún no hay tallas para consultar.</p>}
-      <p className="text-sm text-neutral-600">La equivalencia es orientativa y puede variar según la marca y el modelo. Las tallas en gris en cada ficha no están disponibles.</p>
+      <p className="text-sm text-neutral-600">La equivalencia es orientativa y puede variar según la marca y el modelo. Cada ficha muestra solo las tallas disponibles para el color elegido.</p>
     </section>
   );
 }

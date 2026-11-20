@@ -43,6 +43,8 @@ Se definen en `globals.css` y se aplican con clases:
 
 Todas deben respetar `@media (prefers-reduced-motion: reduce)`: si el usuario lo pide, se desactivan o se reducen a un cambio de opacidad.
 
+Las reglas detalladas de transiciones y micro-interacciones (duraciones, qué propiedades animar, estados de botones, pantallas táctiles) están en la skill `ux-fluida`.
+
 ## 5. Capas y posicionamiento
 
 - **Superposición fija:** barra de progreso (`z-[1000]`) y contenedor de notificaciones (`z-50`, `top-4 right-4`).
@@ -93,7 +95,7 @@ La referencia es una página larga. Al implementarla: anuncio, header y footer v
 
 **Lógica de talla:**
 - Las tallas son números (`36`, no `"36"`): 36, 37, 38, 39, 40, 41, 42, 43, 44.
-- `disponibles` define qué tallas se pueden elegir por producto; las demás se ven deshabilitadas. Una lista vacía las deshabilita todas.
+- Mostrar solo las tallas disponibles del color seleccionado. Sin stock, mostrar «Sin tallas disponibles» en lugar de botones.
 - Solo una talla puede estar seleccionada; elegir otra desmarca la anterior.
 
 **Lógica de color:**

@@ -69,7 +69,7 @@ Antes de añadir cualquier dependencia nueva, pregunta. Prefiere lo que ya trae 
 - **Server Components por defecto.** Usa `"use client"` solo donde haya interactividad (carrito, selector de talla, filtros, menú móvil).
 - **Capa de datos aislada.** Ningún componente importa el array de productos directamente. Siempre usa funciones de `src/data/`, por ejemplo `obtenerProductos()`, `obtenerProductoPorSlug(slug)`, `obtenerProductosPorCategoria(cat)`. Que sean `async` aunque hoy devuelvan datos locales: así, cuando exista la base de datos, solo se cambia el interior de esas funciones y no las páginas.
 - **Tipos primero.** Define `Producto`, `Variante` (talla, color, stock) y `ItemCarrito` en `src/types/` antes de construir componentes. Las tallas y colores son variantes con stock propio, no productos separados.
-- **Tallas como números** (`38`, no `"38"`). Una talla sin stock se muestra deshabilitada.
+- **Tallas como números** (`38`, no `"38"`). Mostrar solo tallas con stock del color elegido; si no hay ninguna, mostrar «Sin tallas disponibles».
 - **Carrito:** estado en `CartContext`. Se puede persistir en `localStorage` con try/catch y valores por defecto si falla.
 - **SEO desde ya** (aunque los datos sean de ejemplo):
   - `generateMetadata` con título y descripción únicos por página.
@@ -79,6 +79,7 @@ Antes de añadir cualquier dependencia nueva, pregunta. Prefiere lo que ya trae 
   - Un solo `<h1>` por página, jerarquía de encabezados correcta.
 - **Accesibilidad:** HTML semántico, botones con `<button>`, foco visible, contraste suficiente, todo operable con teclado.
 - **Estados de interfaz:** cada lista o acción contempla estado vacío, carga y error aunque hoy no falle.
+- **UX fluida:** toda interacción (botones, selección de talla y color, menús, notificaciones) debe transicionar con suavidad. Antes de crear o modificar cualquier elemento interactivo, carga la skill `ux-fluida`.
 
 ## 5. Prohibiciones
 

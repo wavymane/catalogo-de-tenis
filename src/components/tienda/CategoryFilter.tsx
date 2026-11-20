@@ -37,7 +37,7 @@ export default function CategoryFilter() {
       if (next) setFilter(next);
       document.getElementById("modelos")?.scrollIntoView();
     }}
-    className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full border border-neutral-300 bg-white px-2 py-1 text-sm">
+    className="absolute top-1/2 right-0.5 -translate-y-1/2 rounded-full border border-neutral-300 bg-white px-2 py-1 text-sm">
     {options.map(option => <option key={option}>{option}</option>)}
   </select>;
 }
