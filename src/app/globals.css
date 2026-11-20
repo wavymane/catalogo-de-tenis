@@ -1,0 +1,25 @@
+@import "tailwindcss" source("../");
+
+body { font-family: var(--font-inter), sans-serif; }
+h1, h2 { font-family: var(--font-geist), sans-serif; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .product-photo img { transition: transform .25s ease-out; }
+  @media (hover: hover) {
+    .product-photo:hover img { transform: scale(1.06); }
+  }
+  article { animation: fade-in .25s ease-out; }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+}
+
+.photo-viewer {
+  margin: auto;
+  width: min(94vw, 75rem);
+  height: 90dvh;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.photo-viewer::backdrop { background: rgb(0 0 0 / 78%); }
+html:has(.photo-viewer[open]) { overflow: hidden; }

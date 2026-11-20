@@ -1,0 +1,62 @@
+"use client";
+
+import { useState } from "react";
+import type { Product } from "@/types/product";
+import { matchesSizes, useCategory } from "./CategoryFilter";
+import SizeFilterControls, { selectStyle } from "./SizeFilterControls";
+import ProductPhoto from "./ProductPhoto";
+import SizeSelector from "./SizeSelector";
+
+const pesos = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
+
+function ProductCard({ product }: { product: Product }) {
+  const [color, setColor] = useState(product.colors[0]?.name ?? null);
+  const photo = product.colors.find(option => option.name === color)?.image ?? product.image;
+  return <article id={`modelo-${product.id}`} tabIndex={-1} className="scroll-mt-32 overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+    <ProductPhoto key={photo} filename={photo} name={color ? `${product.name}, ${color}` : product.name} />
+    <div className="p-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <h3 className="text-xl font-semibold">{product.name}</h3>
+        <span className="text-right text-sm font-medium">{product.price === null ? "Precio por confirmar" : pesos.format(product.price)}</span>
+      </div>
+      {product.colors.length > 0 && <fieldset className="mt-3">
+        <legend className="text-sm">Color</legend>
+        <div className="mt-1 flex flex-wrap gap-1">{product.colors.map(option =>
+          <button type="button" key={option.name} aria-pressed={option.name === color} onClick={() => setColor(option.name)}
+            className="rounded-full border border-neutral-400 px-3 py-1 text-sm aria-pressed:bg-neutral-900 aria-pressed:text-white">{option.name}</button>
+        )}</div>
+      </fieldset>}
+      <SizeSelector key={color} variants={product.variants.filter(variant => variant.color === color)} model={product.name} />
+    </div>
+  </article>;
+}
+
+export default function ProductGrid({ products }: { products: Product[] }) {
+  const { filter, sizeFilter } = useCategory();
+  const [order, setOrder] = useState("default");
+  const availableSizes = (product: Product) => product.variants.filter(v => v.stock > 0).map(v => v.size);
+  const sizes = [...new Set(products.flatMap(availableSizes))].sort((a, b) => a - b);
+  const visible = products.filter(product => (filter === "Todos" || product.category === filter)
+    && matchesSizes(availableSizes(product), sizeFilter));
+  if (order !== "default") visible.sort((a, b) => {
+    if (a.price === null || b.price === null) return Number(a.price === null) - Number(b.price === null);
+    return order === "ascending" ? a.price - b.price : b.price - a.price;
+  });
+  return <>
+    <h2 id="modelos" className="mb-5 scroll-mt-32 text-3xl font-semibold tracking-tight">Explorar modelos <span aria-live="polite" className="text-base text-neutral-500">{filter} ({visible.length})</span></h2>
+    <div className="mb-5 grid gap-3 rounded-xl border border-neutral-200 bg-white p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+      <SizeFilterControls sizes={sizes} />
+      <label>Ordenar por precio
+        <select className={selectStyle} value={order} onChange={event => setOrder(event.target.value)}>
+          <option value="default">Orden del catálogo</option>
+          <option value="ascending">Menor a mayor</option>
+          <option value="descending">Mayor a menor</option>
+        </select>
+      </label>
+    </div>
+    {!visible.length && <p>No hay modelos con estos filtros. Prueba otra talla o categoría.</p>}
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {visible.map(product => <ProductCard key={product.id} product={product} />)}
+    </div>
+  </>;
+}
