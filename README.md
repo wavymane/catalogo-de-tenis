@@ -23,13 +23,15 @@ La compilación genera **`out/`**. Publica su contenido en un alojamiento estát
 
 ## Cómo funciona la tienda
 
-- **Explorar:** el buscador de la cabecera encuentra modelos por nombre o referencia desde el tercer carácter. Comparte con el catálogo los filtros de categoría y talla. Puedes buscar una talla exacta o un rango inclusivo: basta con que haya stock en una de las tallas del rango.
+- **Explorar:** desde la primera letra, el buscador filtra las fichas por nombre, referencia o marca, sin distinguir mayúsculas ni tildes. Borrar el texto conserva los filtros y el orden elegidos. Puedes buscar una talla exacta o un rango inclusivo: basta con que haya stock en una de las tallas del rango.
 - **Categorías y precios:** las categorías se calculan a partir de las tallas con stock: niños por debajo de 36, mujer entre 36 y 39, hombre entre 40 y 44, y unisex si hay tallas de ambos grupos adultos. Puedes ordenar los precios en ambos sentidos; los modelos sin precio quedan al final.
 - **Elegir variante:** los círculos sólidos o degradados cambian la foto y las tallas del color elegido. Las tallas agotadas no se muestran. La guía EU → cm estima la longitud del **pie**, no la de la plantilla; es orientativa y puede variar según el modelo.
 - **Pedir:** al seleccionar una talla aparece **Pedir ahora**. El enlace `wa.me` prepara un mensaje con modelo, color y talla EU, sin adjuntar fotos ni enlaces a imágenes. Cambiar de color reinicia la selección de talla. El contacto se configura en [`SizeSelector.tsx`](src/components/tienda/SizeSelector.tsx).
 - **Visualización:** la primera foto del catálogo aparece en la portada. Las fotos se pueden ampliar con un clic o toque; el visor se cierra con el botón, el fondo o Escape. El interruptor sol/luna sigue el tema del dispositivo hasta que eliges uno y recuerda tu elección. Las transiciones respetan la preferencia de movimiento reducido.
 
 ## Mantener el inventario
+
+El filtro **Marca** se combina con la categoría, la talla y el orden de precios. Se reconoce el prefijo del modelo: por ejemplo, `AD`, `SAMBA` y `SUPER STAR Br` aparecen bajo Adidas; `NB` y `NEW B` bajo New Balance. Para añadir un alias edita [`brands.ts`](src/data/brands.ts). Las referencias sin identificar aparecen en «Marca por confirmar».
 
 La fuente de datos es [`public/imagenes/`](public/imagenes/). Añade o renombra una foto siguiendo `MODELO_PRECIO_TALLAS[_color-Nombre].jpg`. Se admiten JPG/JPEG, PNG, WebP y AVIF. Reserva `_` para separar campos; dentro del nombre del modelo usa espacios.
 

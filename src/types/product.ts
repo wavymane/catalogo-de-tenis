@@ -3,6 +3,7 @@ export type Category = "Mujer" | "Hombre" | "Unisex" | "Niños";
 export type Product = {
   id: string;
   name: string;
+  brand: string;
   image: string;
   colors: { name: string; image: string }[];
   category: Category | null;

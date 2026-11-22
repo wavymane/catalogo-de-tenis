@@ -7,6 +7,8 @@ type Filter = Category | "Todos";
 export type SizeFilter = { mode: "all" } | { mode: "exact"; size: number } | { mode: "range"; from: number; to: number };
 const FilterContext = createContext<{
   filter: Filter; setFilter: (value: Filter) => void;
+  brand: string; setBrand: (value: string) => void;
+  query: string; setQuery: (value: string) => void;
   sizeFilter: SizeFilter; setSizeFilter: (value: SizeFilter) => void;
 } | null>(null);
 
@@ -18,8 +20,10 @@ export function matchesSizes(available: number[], selection: SizeFilter) {
 
 export function CategoryProvider({ children }: { children: ReactNode }) {
   const [filter, setFilter] = useState<Filter>("Todos");
+  const [brand, setBrand] = useState("");
+  const [query, setQuery] = useState("");
   const [sizeFilter, setSizeFilter] = useState<SizeFilter>({ mode: "all" });
-  return <FilterContext.Provider value={{ filter, setFilter, sizeFilter, setSizeFilter }}>{children}</FilterContext.Provider>;
+  return <FilterContext.Provider value={{ filter, setFilter, sizeFilter, setSizeFilter, brand, setBrand, query, setQuery }}>{children}</FilterContext.Provider>;
 }
 
 export function useCategory() {

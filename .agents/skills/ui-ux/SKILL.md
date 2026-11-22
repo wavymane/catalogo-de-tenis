@@ -49,7 +49,7 @@ Las reglas detalladas de transiciones y micro-interacciones (duraciones, qué pr
 
 - **Superposición fija:** barra de progreso (`z-[1000]`) y contenedor de notificaciones (`z-50`, `top-4 right-4`).
 - **Header:** `sticky top-0 z-40 backdrop-blur-sm`.
-- **Desplegable de búsqueda:** `absolute top-full` dentro del contenedor de búsqueda, con transición de `max-height` y `opacity`.
+- **Resultados de búsqueda:** se muestran directamente en la cuadrícula del catálogo.
 
 ## 6. Secciones
 
@@ -125,7 +125,7 @@ Todo el contenido es de ejemplo y debe reemplazarse por reseñas reales antes de
 
 ## 7. Reglas de interacción
 
-- **Búsqueda:** con más de 2 caracteres se abre el desplegable (`search-dropdown.active`). Los resultados salen de las funciones de `src/data/`, no de un backend.
+- **Búsqueda:** desde la primera letra se filtran las fichas del catálogo local por modelo, referencia o marca.
 - **Scroll:** el ancho del indicador se calcula como `(window.pageYOffset / docHeight) * 100`, donde `docHeight` es la altura total del documento menos la ventana.
 - **Intersection Observer:** añade `.fade-in` a los elementos con `.hover-lift` y a las etiquetas `article` cuando entran al viewport, y deja de observarlos después.
 - **Estado del carrito:** vive en `CartContext`, según `AGENTS.md`.
@@ -145,7 +145,7 @@ Todo el contenido es de ejemplo y debe reemplazarse por reseñas reales antes de
 - No dejar el botón de categoría fuera del input de búsqueda en escritorio.
 - No omitir la animación de escritura ni el `backdrop-blur-sm` del header.
 - No guardar tallas como texto.
-- No hacer que el desplegable de búsqueda o la animación de escritura rompan en móvil.
+- Mantener el foco en el buscador mientras se actualizan las fichas en móvil.
 
 ## 10. Verificación específica
 

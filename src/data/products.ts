@@ -1,6 +1,16 @@
 import { readdir } from "node:fs/promises";
 import path from "node:path";
+import { brandFor } from "./brands";
 import type { Category, Product } from "@/types/product";
+
+function displayName(name: string): string {
+  return name
+    .replace(/(^|\s)NIÑ(?=\s|$)/giu, " ")
+    .replace(/\b(?:D|H|Hombre)\b/gi, "")
+    .replace(/(\d)[DH]\b/gi, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 function categoryFor(sizes: Set<number>): Category | null {
   const values = [...sizes];
@@ -40,7 +50,8 @@ export async function getProducts(): Promise<Product[]> {
     const last = available.size && Math.max(...available) < 36 ? 35 : Math.max(44, ...available);
     const entry: Product = products.get(key) ?? {
       id: key.replace(/\s/g, "-"),
-      name: name.trim(),
+      name: displayName(name),
+      brand: brandFor(name),
       image,
       colors: [],
       category: null,
