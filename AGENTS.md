@@ -102,7 +102,7 @@ Antes de añadir cualquier dependencia nueva, pregunta. Prefiere lo que ya trae 
 4. Reutiliza componentes de `components/ui/` antes de crear uno nuevo.
 5. Verifica (sección 9) antes de dar la tarea por terminada.
 6. Commits en inglés, formato convencional: `feat:`, `fix:`, `refactor:`, `style:`, `chore:`.
-7. Una rama por funcionalidad; no trabajar directo en `main`.
+7. Trabajar, confirmar y subir los cambios siempre en `develop`. Usar esta rama fija para Vercel; no crear una rama por funcionalidad.
 
 ## Memoria
 — Al empezar, lee `MEMORY.md` para conocer el estado del proyecto y las decisiones tomadas.

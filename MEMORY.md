@@ -3,10 +3,11 @@
 Memoria del proyecto entre sesiones. Máximo ~v50 líneas: resume o elimina 10 que ya no aporte.
 
 ## Estado actual
-— Se inicializó Git en la carpeta del proyecto; la base inicial está en la rama `feat/catalog-baseline`.
+— `develop` es la rama fija para todos los cambios y la que se debe seleccionar en Vercel.
 — La portada Next.js lee las fotos de `public/imagenes/`. `pnpm dev` abre el entorno de desarrollo y `pnpm build` regenera el sitio estático en `out/` al cambiar las fotos.
 
 ## Decisiones (y por qué)
+— «Nuevo» señala el último lote de claves de ficha incorporadas: primero cambios locales frente a HEAD y, al publicarlos, la última incorporación en el historial de `public/imagenes/`. El contador es global; el interruptor «Últimos agregados» combina este filtro con los demás.
 — `ProductBadges.tsx` define los colores por marca (fondo intenso) y categoría (fondo pastel). Las etiquetas sin identificar usan tonos neutros.
 — Las fichas muestran marca y categoría por stock en dos etiquetas pequeñas. `displayName` quita D, H, Hombre y NIÑ solo del nombre visible; los archivos, identificadores y claves de agrupación conservan el nombre original.
 — La búsqueda en vivo se aplica en `ProductGrid` junto con los filtros; no hay lista paralela de sugerencias. Limpiar la consulta solo restaura los resultados permitidos por los filtros activos.

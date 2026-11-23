@@ -19,7 +19,10 @@ function ProductCard({ product }: { product: Product }) {
   const [color, setColor] = useState(product.colors[0]?.name ?? null);
   const photo = product.colors.find(option => option.name === color)?.image ?? product.image;
   return <article id={`modelo-${product.id}`} tabIndex={-1} className="scroll-mt-32 overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-    <ProductPhoto key={photo} filename={photo} name={color ? `${product.name}, ${color}` : product.name} />
+    <div className="relative">
+      <ProductPhoto key={photo} filename={photo} name={color ? `${product.name}, ${color}` : product.name} />
+      {product.isNew && <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-emerald-800 px-2.5 py-1 text-xs font-semibold text-[#fff]">Nuevo</span>}
+    </div>
     <div className="p-5">
       <ProductBadges brand={product.brand} category={product.category} />
       <div className="flex items-baseline justify-between gap-3">
@@ -42,11 +45,13 @@ export default function ProductGrid({ products }: { products: Product[] }) {
   const terms = searchText(query).trim().split(/\s+/).filter(Boolean);
   const brands = [...new Set(products.map(product => product.brand))].sort((a, b) => a.localeCompare(b, "es"));
   const [order, setOrder] = useState("default");
+  const [onlyNew, setOnlyNew] = useState(false);
+  const newCount = products.filter(product => product.isNew).length;
   const availableSizes = (product: Product) => product.variants.filter(v => v.stock > 0).map(v => v.size);
   const sizes = [...new Set(products.flatMap(availableSizes))].sort((a, b) => a - b);
   const visible = products.filter(product => {
     const text = searchText(`${product.name} ${product.brand}`);
-    return terms.every(term => text.includes(term)) && (filter === "Todos" || product.category === filter)
+    return (!onlyNew || product.isNew) && terms.every(term => text.includes(term)) && (filter === "Todos" || product.category === filter)
       && (!brand || product.brand === brand) && matchesSizes(availableSizes(product), sizeFilter);
   });
   if (order !== "default") visible.sort((a, b) => {
@@ -54,9 +59,19 @@ export default function ProductGrid({ products }: { products: Product[] }) {
     return order === "ascending" ? a.price - b.price : b.price - a.price;
   });
   return <>
-    <h2 id="modelos" className="mb-5 scroll-mt-32 text-3xl font-semibold tracking-tight">Explorar modelos <span aria-live="polite" className="text-base text-neutral-500">{filter} ({visible.length})</span></h2>
+    <h2 id="modelos" className="mb-5 scroll-mt-32 text-3xl font-semibold tracking-tight">Explorar modelos <span aria-live="polite" className="text-base text-neutral-500">{filter} ({visible.length})</span>{" "}
+      <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 align-middle text-xs font-semibold tracking-normal text-emerald-950">{newCount} {newCount === 1 ? "nuevo" : "nuevos"}</span>
+    </h2>
     <div className="mb-5 grid gap-3 rounded-xl border border-neutral-200 bg-white p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
       <SizeFilterControls sizes={sizes} />
+      <button type="button" role="switch" aria-checked={onlyNew} aria-controls="resultados"
+        onClick={() => setOnlyNew(active => !active)}
+        className="group flex min-h-10 cursor-pointer items-center justify-between gap-3 self-end rounded-lg border border-neutral-300 px-3 py-2 text-left font-medium hover:border-neutral-500">
+        Últimos agregados
+        <span aria-hidden="true" className="flex h-6 w-11 shrink-0 items-center rounded-full bg-neutral-500 p-0.5 group-aria-checked:bg-emerald-700 motion-safe:transition-colors motion-safe:duration-200">
+          <span className="size-5 rounded-full bg-[#fff] group-aria-checked:translate-x-5 motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out" />
+        </span>
+      </button>
       <label>Marca
         <select className={selectStyle} value={brand} onChange={event => setBrand(event.target.value)}>
           <option value="">Todas las marcas</option>

@@ -1,6 +1,7 @@
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { brandFor } from "./brands";
+import { isPhoto, latestAdditions, photoDetails } from "./new-arrivals";
 import type { Category, Product } from "@/types/product";
 
 function displayName(name: string): string {
@@ -36,20 +37,19 @@ function parseSizes(text: string): Set<number> {
 
 export async function getProducts(): Promise<Product[]> {
   const entries = await readdir(path.join(process.cwd(), "public", "imagenes"), { withFileTypes: true });
-  const photos = entries.filter(entry => entry.isFile() && /\.(jpe?g|png|webp|avif)$/i.test(entry.name))
+  const photos = entries.filter(entry => entry.isFile() && isPhoto(entry.name))
     .map(entry => entry.name).sort((a, b) => a.localeCompare(b, "es", { numeric: true }));
 
   const products = new Map<string, Product>();
+  const additions = await latestAdditions(photos);
   for (const image of photos) {
-    const filename = path.parse(image).name;
-    const [name, priceText = "", sizeText = "", suffix = ""] = filename.split("_");
-    const color = suffix.startsWith("color-") ? suffix.slice(6) : null;
-    const key = color ? `${name}_${priceText}` : filename;
+    const { name, priceText, sizeText, color, key } = photoDetails(image);
     const available = parseSizes(sizeText);
     const first = Math.min(36, ...available);
     const last = available.size && Math.max(...available) < 36 ? 35 : Math.max(44, ...available);
     const entry: Product = products.get(key) ?? {
       id: key.replace(/\s/g, "-"),
+      isNew: additions.has(key),
       name: displayName(name),
       brand: brandFor(name),
       image,

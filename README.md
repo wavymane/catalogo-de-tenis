@@ -31,6 +31,8 @@ La compilación genera **`out/`**. Publica su contenido en un alojamiento estát
 
 ## Mantener el inventario
 
+**Últimos agregados:** el distintivo «Nuevo», el contador global y el filtro usan las mismas fichas. Las altas locales se comparan con el último commit; después de publicarlo se conserva el lote hasta la siguiente incorporación. Añadir otro color a una ficha ya agrupada no la cuenta de nuevo. El cálculo ocurre al generar el catálogo: usa un checkout con historial Git completo para publicar; sin historial suficiente no se marcan novedades sin verificar.
+
 El filtro **Marca** se combina con la categoría, la talla y el orden de precios. Se reconoce el prefijo del modelo: por ejemplo, `AD`, `SAMBA` y `SUPER STAR Br` aparecen bajo Adidas; `NB` y `NEW B` bajo New Balance. Para añadir un alias edita [`brands.ts`](src/data/brands.ts). Las referencias sin identificar aparecen en «Marca por confirmar».
 
 La fuente de datos es [`public/imagenes/`](public/imagenes/). Añade o renombra una foto siguiendo `MODELO_PRECIO_TALLAS[_color-Nombre].jpg`. Se admiten JPG/JPEG, PNG, WebP y AVIF. Reserva `_` para separar campos; dentro del nombre del modelo usa espacios.

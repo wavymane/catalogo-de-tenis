@@ -1,6 +1,7 @@
 export type Variant = { size: number; color: string | null; stock: number };
 export type Category = "Mujer" | "Hombre" | "Unisex" | "Niños";
 export type Product = {
+  isNew: boolean;
   id: string;
   name: string;
   brand: string;
