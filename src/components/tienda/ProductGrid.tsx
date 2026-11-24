@@ -8,6 +8,7 @@ import ProductPhoto from "./ProductPhoto";
 import SizeSelector from "./SizeSelector";
 import ColorSwatch from "./ColorSwatch";
 import ProductBadges from "./ProductBadges";
+import FilterBar from "./FilterBar";
 
 const pesos = new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 
@@ -62,7 +63,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
     <h2 id="modelos" className="mb-5 scroll-mt-32 text-3xl font-semibold tracking-tight">Explorar modelos <span aria-live="polite" className="text-base text-neutral-500">{filter} ({visible.length})</span>{" "}
       <span className="inline-block rounded-full bg-emerald-100 px-2 py-1 align-middle text-xs font-semibold tracking-normal text-emerald-950">{newCount} {newCount === 1 ? "nuevo" : "nuevos"}</span>
     </h2>
-    <div className="mb-5 grid gap-3 rounded-xl border border-neutral-200 bg-white p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+    <FilterBar>
       <SizeFilterControls sizes={sizes} />
       <button type="button" role="switch" aria-checked={onlyNew} aria-controls="resultados"
         onClick={() => setOnlyNew(active => !active)}
@@ -85,7 +86,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
           <option value="descending">Mayor a menor</option>
         </select>
       </label>
-    </div>
+    </FilterBar>
     {!visible.length && <p>No encontramos modelos. Prueba otro texto o cambia los filtros.</p>}
     <div id="resultados" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {visible.map(product => <ProductCard key={product.id} product={product} />)}

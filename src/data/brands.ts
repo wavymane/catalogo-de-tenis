@@ -9,7 +9,9 @@ const aliases: Record<string, string[]> = {
   Timberland: ["TIMBERLAND"],
   Valentino: ["VALENTINO"],
   "Alexander McQueen": ["ALEXANDER MC", "ALEXANDER MCQUEEN"],
-  Bape: ["BAPE"]
+  Bape: ["BAPE"],
+  "Dolce & Gabbana": ["DOLCE & GABBANA", "DOLCE GABBANA"],
+  "Hugo Boss": ["HUGO BOSS", "HUGO"],
 };
 
 export function brandFor(model: string): string {
