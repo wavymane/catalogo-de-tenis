@@ -8,7 +8,7 @@ Memoria del proyecto entre sesiones. Máximo ~v50 líneas: resume o elimina 10 q
 
 ## Decisiones (y por qué)
 — `FilterBar` distingue el título «Filtros» (18 px, icono de 20 px) de sus controles. Reaparece bajo la cabecera al subir con un fundido de 300 ms y un recorrido de 12 px; respeta «Reducir movimiento».
-— «Nuevo» señala el último lote de claves de ficha incorporadas: primero cambios locales frente a HEAD y, al publicarlos, la última incorporación en el historial de `public/imagenes/`. El contador es global; el interruptor «Últimos agregados» combina este filtro con los demás.
+— «Nuevo» señala el último lote de fichas incorporadas. Una ficha que desaparece y reaparece con el mismo modelo y sufijo, pero otro precio o tallas, es una edición, no un alta. El contador es global y el filtro se combina con los demás.
 — `ProductBadges.tsx` define los colores por marca (fondo intenso) y categoría (fondo pastel). Las etiquetas sin identificar usan tonos neutros.
 — Las fichas muestran marca y categoría por stock en dos etiquetas pequeñas. `displayName` quita D, H, Hombre y NIÑ solo del nombre visible; los archivos, identificadores y claves de agrupación conservan el nombre original.
 — La búsqueda en vivo se aplica en `ProductGrid` junto con los filtros; no hay lista paralela de sugerencias. Limpiar la consulta solo restaura los resultados permitidos por los filtros activos.

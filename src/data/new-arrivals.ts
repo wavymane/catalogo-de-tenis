@@ -18,26 +18,60 @@ async function git(...args: string[]) {
   return stdout;
 }
 
-async function keysAt(commit: string) {
+// La clave de ficha distingue todas las fotos; para reconocer una edición de inventario
+// comparamos también el modelo y su sufijo, sin el precio ni las tallas.
+function snapshot(images: string[]) {
+  const models = new Map<string, string>();
+  for (const image of images) {
+    const { key, name, color } = photoDetails(image);
+    const suffix = path.parse(image).name.split("_").slice(3).join("_");
+    models.set(key, `${name}_${color ? "color" : suffix}`);
+  }
+  return models;
+}
+
+async function snapshotAt(commit: string) {
   const files = await git("ls-tree", "-rz", "--name-only", commit, "--", "public/imagenes");
   const photos = files.split("\0").filter(file => /^public\/imagenes\/[^/]+$/.test(file) && isPhoto(file));
-  return new Set(photos.map(file => photoDetails(path.posix.basename(file)).key));
+  return snapshot(photos.map(file => path.posix.basename(file)));
 }
 
 export async function latestAdditions(images: string[]): Promise<Set<string>> {
-  const current = new Set(images.map(image => photoDetails(image).key));
+  const current = snapshot(images);
+  // Sigue la ficha actual hacia atrás si una edición cambió su clave.
+  let currentKeys = new Map([...current.keys()].map(key => [key, key]));
   try {
     const log = await git("log", "--first-parent", "--format=%H", "--", "public/imagenes");
     let newer = current;
     for (const commit of log.trim().split(/\s+/).filter(Boolean)) {
-      const older = await keysAt(commit);
-      const added = [...newer].filter(key => !older.has(key));
-      if (added.length) return new Set(added.filter(key => current.has(key)));
+      const older = await snapshotAt(commit);
+      const removed = new Map<string, string[]>();
+      for (const [key, identity] of older) {
+        if (newer.has(key)) continue;
+        const keys = removed.get(identity) ?? [];
+        keys.push(key);
+        removed.set(identity, keys);
+      }
+      const previousKeys = new Map<string, string>();
+      const added = new Set<string>();
+      let hasAdditions = false;
+      for (const [key, identity] of newer) {
+        const previous = older.has(key) ? key : removed.get(identity)?.pop();
+        const currentKey = currentKeys.get(key);
+        if (previous !== undefined) {
+          if (currentKey !== undefined) previousKeys.set(previous, currentKey);
+        } else {
+          hasAdditions = true;
+          if (currentKey !== undefined) added.add(currentKey);
+        }
+      }
+      if (hasAdditions) return added;
+      currentKeys = previousKeys;
       newer = older;
     }
     // En un clon superficial no conocemos el lote anterior a la primera revisión visible.
     if ((await git("rev-parse", "--is-shallow-repository")).trim() === "false") {
-      return new Set([...newer].filter(key => current.has(key)));
+      return new Set(currentKeys.values());
     }
   } catch {
     // El catálogo también se puede compilar desde una copia sin historial Git.

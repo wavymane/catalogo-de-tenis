@@ -12,6 +12,9 @@ const brandColors: Record<string, string> = {
   Valentino: "bg-rose-900",
   "Alexander McQueen": "bg-purple-900",
   Bape: "bg-lime-800",
+  "Dolce & Gabbana": "bg-stone-800",
+  "Hugo Boss": "bg-zinc-950",
+  Puma: "bg-emerald-800",
 };
 
 const categoryColors: Record<Category, string> = {
