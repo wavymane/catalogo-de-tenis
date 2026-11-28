@@ -12,7 +12,7 @@ Memoria del proyecto entre sesiones. Máximo ~v50 líneas: resume o elimina 10 q
 — `ProductBadges.tsx` define los colores por marca (fondo intenso) y categoría (fondo pastel). Las etiquetas sin identificar usan tonos neutros.
 — Las fichas muestran marca y categoría por stock en dos etiquetas pequeñas. `displayName` quita D, H, Hombre y NIÑ solo del nombre visible; los archivos, identificadores y claves de agrupación conservan el nombre original.
 — La búsqueda en vivo se aplica en `ProductGrid` junto con los filtros; no hay lista paralela de sugerencias. Limpiar la consulta solo restaura los resultados permitidos por los filtros activos.
-— El filtro Marca y el buscador usan la marca normalizada en `src/data/brands.ts`. Los prefijos no reconocidos quedan como «Marca por confirmar».
+— El filtro Marca y el buscador usan `src/data/brands.ts`. En este catálogo «A BATHING APE» se clasifica como Nike por indicación del propietario; «BAPE» conserva su propia marca.
 — Separar tonos con ` con `, por ejemplo `_color-Blanco con negro con rojo`. `ColorSwatch.tsx` usa todos los tonos para el degradado. NIKE SKATE 36–39 tiene cuatro variantes; NIKE SKATE Hombre 40–44 tiene siete; la ficha 36–44 sigue aparte.
 — Las microinteracciones de los controles se centralizan en `globals.css` según `ux-fluida`. En fichas con stock se reserva el espacio de «Pedir ahora» para que seleccionar talla no desplace las filas.
 — El interruptor sol/luna sigue al sistema hasta la primera elección manual y la guarda en `catalog-theme`. El fondo y la portada usan una paleta neutra; las muestras de producto conservan sus colores reales.

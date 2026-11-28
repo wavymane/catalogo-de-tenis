@@ -1,7 +1,7 @@
 const aliases: Record<string, string[]> = {
   Adidas: ["AD", "ADIDAS", "ADISTAR", "SAMBA", "SUPER STAR", "SUPERSTAR"],
   "New Balance": ["NB", "NEW B", "NEW BALANCE"],
-  Nike: ["NIKE", "AF1", "FREE METCON"],
+  Nike: ["NIKE", "AF1", "FREE METCON", "A BATHING APE"],
   Jordan: ["JORDAN", "RETRO 1"],
   On: ["ON", "ONRUNNING"],
   Converse: ["CONVERSE"],
@@ -13,6 +13,7 @@ const aliases: Record<string, string[]> = {
   "Dolce & Gabbana": ["DOLCE & GABBANA", "DOLCE GABBANA"],
   "Hugo Boss": ["HUGO BOSS", "HUGO"],
   Puma: ["PUMA"],
+  Reebok: ["REEBOK"],
 };
 
 export function brandFor(model: string): string {

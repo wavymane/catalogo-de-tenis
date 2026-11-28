@@ -2,7 +2,7 @@ const palette: Record<string, string> = {
   "azul oscuro": "#172d54", beige: "#ddc8a5", rojo: "#ce2536",
   azul: "#3263ac", blanco: "#ffffff", cian: "#00ffff", fucsia: "#e30086", gris: "#929292",
   negro: "#181818", piel: "#ddb996", rosa: "#f4a7c4", salmón: "#fa907d", verde: "#438053",
-  café: "#8b4513", morado: "#800080", amarillo: "#ffff00", "verde oscuro": "#2e8b57"
+  café: "#8b4513", morado: "#800080", amarillo: "#ffff00", "verde oscuro": "#2e8b57", plateado: "#c0c0c0"
 };
 
 type Props = { name: string; selected: boolean; onSelect: () => void };
